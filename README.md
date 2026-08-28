@@ -58,3 +58,20 @@ curl -X POST http://localhost:8080/predict -F "image=@test_image.png"
 ## Git workflow
 Use `develop` plus feature branches and merge each feature through a Pull Request (PR). This assignment asks atleast four merged PRs.
 
+## Repository Structure
+
+```text
+mlops-pytorch-pipeline/
+├── .github/workflows/     
+├── configs/              
+├── data/                  
+├── checkpoints/         
+├── docker/       
+├── k8s/            
+├── requirements/       
+├── scripts/               
+├── src/              
+└── tests/         
+```
+
+
