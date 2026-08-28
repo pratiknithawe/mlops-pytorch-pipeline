@@ -1,0 +1,14 @@
+FROM python:3.11-slim-bookworm AS builder
+WORKDIR /build
+ENV VIRTUAL_ENV=/opt/venv PATH="/opt/venv/bin:$PATH"
+RUN python -m venv $VIRTUAL_ENV
+COPY requirements/train.txt .
+RUN pip install --upgrade pip==24.3.1 && pip install --no-cache-dir -r train.txt
+FROM python:3.11-slim-bookworm AS training
+WORKDIR /app
+ENV VIRTUAL_ENV=/opt/venv PATH="/opt/venv/bin:$PATH" PYTHONUNBUFFERED=1
+COPY --from=builder /opt/venv /opt/venv
+COPY src/ ./src/
+COPY configs/ ./configs/
+RUN mkdir -p /app/data /app/checkpoints
+ENTRYPOINT ["python","src/train.py"]
