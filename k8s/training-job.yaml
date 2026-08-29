@@ -27,8 +27,8 @@ spec:
           image: mlops-train:v1
           imagePullPolicy: IfNotPresent
           resources:
-            requests: {cpu: "2", memory: 4Gi}
-            limits: {cpu: "2", memory: 4Gi}
+            requests: {cpu: "2", memory: 2Gi}
+            limits: {cpu: "2", memory: 2Gi}
           volumeMounts:
             - {name: training-config, mountPath: /app/configs, readOnly: true}
             - {name: training-storage, mountPath: /app/data}
