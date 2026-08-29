@@ -19,3 +19,4 @@ checkpoints/*
 !.env.example
 .DS_Store
 Thumbs.db
+test_image.png
