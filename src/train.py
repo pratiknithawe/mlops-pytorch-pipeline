@@ -28,7 +28,7 @@ def train_one_epoch(
     correct = 0
     total = 0
 
-    for inputs, targets in loader:
+    for batch_idx, (inputs, targets) in enumerate(loader, start=1):
         inputs = inputs.to(device)
         targets = targets.to(device)
 
@@ -46,6 +46,18 @@ def train_one_epoch(
 
         total += targets.size(0)
         correct += predictions.eq(targets).sum().item()
+
+        if batch_idx % 100 == 0 or batch_idx == len(loader):
+            print(
+                json.dumps(
+                    {
+                        "event": "training_progress",
+                        "batch": batch_idx,
+                        "total_batches": len(loader),
+                    }
+                ),
+                flush=True,
+            )
 
     average_loss = total_loss / total
     accuracy = correct / total
@@ -99,6 +111,8 @@ def main() -> None:
         )
 
     config = load_config(config_path)
+    torch.set_num_threads(2)
+    torch.set_num_interop_threads(1)
 
     architecture = config["model"]["architecture"]
     num_classes = config["model"]["num_classes"]
