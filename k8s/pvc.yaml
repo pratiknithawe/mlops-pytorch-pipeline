@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: checkpoint-checker
+  namespace: ml-training
+spec:
+  restartPolicy: Never
+  containers:
+    - name: checker
+      image: busybox:1.36
+      command: ["sh", "-c", "ls -lh /app/checkpoints && sleep 30"]
+      volumeMounts:
+        - name: training-storage
+          mountPath: /app/checkpoints
+  volumes:
+    - name: training-storage
+      persistentVolumeClaim:
+        claimName: mlops-data-checkpoints
